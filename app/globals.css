@@ -1,0 +1,227 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------------
+   Cashflow design tokens
+   Palette is fixed by the brief. Semantic roles:
+     turquesa  -> primary action + INCOME
+     roxo      -> secondary + EXPENSE
+     vermelho  -> reserved strictly for destructive / over-budget alerts
+--------------------------------------------------------------------------- */
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-cormorant), ui-serif, Georgia, "Times New Roman", serif;
+  --font-display: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-income: var(--income);
+  --color-expense: var(--expense);
+  --color-warning: var(--warning);
+  --color-surface: var(--surface);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.55);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.35);
+  --radius-2xl: calc(var(--radius) * 1.7);
+  --radius-3xl: calc(var(--radius) * 2.1);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ------------------------------- LIGHT ----------------------------------- */
+:root {
+  --radius: 0.75rem;
+
+  --background: #f8f9fc;
+  --foreground: #1a1d2b;
+
+  --card: #ffffff;
+  --card-foreground: #1a1d2b;
+  --popover: #ffffff;
+  --popover-foreground: #1a1d2b;
+
+  --surface: #f1f3f8;
+  --input: #f1f3f8;
+  --border: #d1d5db;
+
+  --muted: #f1f3f8;
+  --muted-foreground: #6b728e;
+
+  --primary: #00c4b3;
+  --primary-foreground: #04231f;
+  --secondary: #6b46c1;
+  --secondary-foreground: #ffffff;
+
+  --accent: #e6f8f6;
+  --accent-foreground: #04544b;
+
+  --income: #00a394;
+  --expense: #6b46c1;
+  --warning: #b45309;
+  --destructive: #d92d4e;
+  --destructive-foreground: #ffffff;
+
+  --ring: #00c4b3;
+
+  --chart-1: #00c4b3;
+  --chart-2: #6b46c1;
+  --chart-3: #2f8fb8;
+  --chart-4: #9d5fb0;
+  --chart-5: #4b8f6a;
+  --chart-6: #b4762e;
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1d2b;
+  --sidebar-primary: #00c4b3;
+  --sidebar-primary-foreground: #04231f;
+  --sidebar-accent: #f1f3f8;
+  --sidebar-accent-foreground: #1a1d2b;
+  --sidebar-border: #d1d5db;
+  --sidebar-ring: #00c4b3;
+}
+
+/* -------------------------------- DARK ----------------------------------- */
+.dark {
+  --background: #1a1d2b;
+  --foreground: #ffffff;
+
+  --card: #252c42;
+  --card-foreground: #ffffff;
+  --popover: #252c42;
+  --popover-foreground: #ffffff;
+
+  --surface: #2e3552;
+  --input: #2e3552;
+  --border: #3d4465;
+
+  --muted: #2e3552;
+  --muted-foreground: #a3aac6;
+
+  --primary: #00e5d1;
+  --primary-foreground: #04231f;
+  --secondary: #7a5aff;
+  --secondary-foreground: #ffffff;
+
+  --accent: #2e3552;
+  --accent-foreground: #ffffff;
+
+  --income: #00e5d1;
+  --expense: #7a5aff;
+  --warning: #f2b544;
+  --destructive: #ff5e7a;
+  --destructive-foreground: #2a0710;
+
+  --ring: #00e5d1;
+
+  --chart-1: #00e5d1;
+  --chart-2: #7a5aff;
+  --chart-3: #4fb8e8;
+  --chart-4: #c58bff;
+  --chart-5: #5fd6a0;
+  --chart-6: #f2b544;
+
+  --sidebar: #252c42;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #00e5d1;
+  --sidebar-primary-foreground: #04231f;
+  --sidebar-accent: #2e3552;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #3d4465;
+  --sidebar-ring: #00e5d1;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/60;
+  }
+
+  html {
+    @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  /* Keyboard focus stays visible everywhere. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--primary) 30%, transparent);
+  }
+}
+
+@layer components {
+  /* Money and any figure that must align vertically in a column. */
+  .tabular {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+  }
+
+  /* Small uppercase label, the counterweight to the Cormorant display type. */
+  .eyebrow {
+    @apply text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground;
+  }
+
+  /* Display figures: Cormorant Garamond, used only for hero numbers/titles. */
+  .display {
+    font-family: var(--font-heading);
+    font-variant-numeric: lining-nums;
+    @apply font-medium tracking-[-0.01em];
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
