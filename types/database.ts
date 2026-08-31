@@ -1,29 +1,39 @@
 /**
  * Shape of the Cashflow schema (see supabase/migrations).
- * Kept hand-written so the app compiles without a generated types step.
+ *
+ * Hand-written so the app builds without a codegen step, but laid out exactly
+ * the way `supabase gen types` emits it. Two details are load-bearing:
+ *
+ *   • The row shapes are `type` aliases, not interfaces. postgrest-js requires
+ *     `Row extends Record<string, unknown>`, and an interface has no implicit
+ *     index signature — so interfaces fail the constraint and every insert and
+ *     update silently degrades to `never`.
+ *   • The empty maps are `{ [_ in never]: never }`, not `Record<string, never>`.
+ *     The latter claims every string key maps to `never`, which fails the same
+ *     constraint.
  */
 
 export type TransactionType = "income" | "expense";
 
-export interface ProfileRow {
+export type ProfileRow = {
   id: string;
   full_name: string | null;
   currency: string;
   onboarded_at: string | null;
   created_at: string;
   updated_at: string;
-}
+};
 
-export interface CategoryRow {
+export type CategoryRow = {
   id: string;
   user_id: string;
   name: string;
   icon: string;
   color: string;
   created_at: string;
-}
+};
 
-export interface TransactionRow {
+export type TransactionRow = {
   id: string;
   user_id: string;
   category_id: string | null;
@@ -33,9 +43,9 @@ export interface TransactionRow {
   description: string | null;
   created_at: string;
   updated_at: string;
-}
+};
 
-export interface BudgetRow {
+export type BudgetRow = {
   id: string;
   user_id: string;
   category_id: string;
@@ -43,46 +53,127 @@ export interface BudgetRow {
   amount: number;
   created_at: string;
   updated_at: string;
-}
-
-type Table<Row, Insert, Update> = {
-  Row: Row;
-  Insert: Insert;
-  Update: Update;
-  Relationships: [];
 };
 
 export interface Database {
   public: {
     Tables: {
-      profiles: Table<
-        ProfileRow,
-        Partial<ProfileRow> & { id: string },
-        Partial<ProfileRow>
-      >;
-      categories: Table<
-        CategoryRow,
-        Omit<CategoryRow, "id" | "created_at"> & { id?: string },
-        Partial<CategoryRow>
-      >;
-      transactions: Table<
-        TransactionRow,
-        Omit<TransactionRow, "id" | "created_at" | "updated_at"> & {
+      profiles: {
+        Row: ProfileRow;
+        Insert: {
+          id: string;
+          full_name?: string | null;
+          currency?: string;
+          onboarded_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
           id?: string;
-        },
-        Partial<TransactionRow>
-      >;
-      budgets: Table<
-        BudgetRow,
-        Omit<BudgetRow, "id" | "created_at" | "updated_at"> & { id?: string },
-        Partial<BudgetRow>
-      >;
+          full_name?: string | null;
+          currency?: string;
+          onboarded_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      categories: {
+        Row: CategoryRow;
+        Insert: {
+          id?: string;
+          user_id: string;
+          name: string;
+          icon?: string;
+          color?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          name?: string;
+          icon?: string;
+          color?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      transactions: {
+        Row: TransactionRow;
+        Insert: {
+          id?: string;
+          user_id: string;
+          category_id?: string | null;
+          type: TransactionType;
+          amount: number;
+          date: string;
+          description?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          category_id?: string | null;
+          type?: TransactionType;
+          amount?: number;
+          date?: string;
+          description?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "transactions_category_fkey";
+            columns: ["category_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "categories";
+            referencedColumns: ["id", "user_id"];
+          },
+        ];
+      };
+      budgets: {
+        Row: BudgetRow;
+        Insert: {
+          id?: string;
+          user_id: string;
+          category_id: string;
+          month: string;
+          amount: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          category_id?: string;
+          month?: string;
+          amount?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "budgets_category_fkey";
+            columns: ["category_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "categories";
+            referencedColumns: ["id", "user_id"];
+          },
+        ];
+      };
     };
-    Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
     Enums: {
       transaction_type: TransactionType;
     };
-    CompositeTypes: Record<string, never>;
+    CompositeTypes: {
+      [_ in never]: never;
+    };
   };
 }

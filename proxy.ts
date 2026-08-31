@@ -15,9 +15,13 @@ export default async function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * Every route except Next internals and static assets. Auth pages are
+     * Every page route except Next internals and static assets. Auth pages are
      * matched too, so signed-in users get bounced back to the dashboard.
+     *
+     * `api/` is excluded on purpose: a route handler must answer an
+     * unauthenticated request with 401 JSON, not a redirect to an HTML login
+     * page. Each handler checks the session itself.
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff2?)$).*)",
+    "/((?!api/|_next/static|_next/image|favicon.ico|.*\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff2?)$).*)",
   ],
 };
