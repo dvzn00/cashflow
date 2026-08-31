@@ -223,12 +223,12 @@ function TypeToggle({
     {
       value: "expense" as const,
       label: "Despesa",
-      active: "bg-expense text-white",
+      active: "bg-expense text-white dark:text-background",
     },
     {
       value: "income" as const,
       label: "Receita",
-      active: "bg-income text-primary-foreground",
+      active: "bg-income text-white dark:text-background",
     },
   ];
 

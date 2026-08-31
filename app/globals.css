@@ -95,7 +95,13 @@
   --accent: #e6f8f6;
   --accent-foreground: #04544b;
 
-  --income: #00a394;
+  /*
+   * Mais escuro que a turquesa da marca (--primary, #00c4b3) de propósito:
+   * este token pinta TEXTO, e #00c4b3 sobre branco dá 3,15:1, abaixo dos
+   * 4,5:1 exigidos. Este passo dá 5,28:1 no card, 5,01:1 na página e
+   * 4,75:1 na superfície de input.
+   */
+  --income: #087970;
   --expense: #6b46c1;
   --warning: #b45309;
   --destructive: #d92d4e;
@@ -146,7 +152,15 @@
   --accent-foreground: #ffffff;
 
   --income: #00e5d1;
-  --expense: #7a5aff;
+  /*
+   * Mais claro que o roxo da marca (--secondary, #7a5aff) de propósito.
+   * Este token pinta TEXTO — valores de despesa em tabelas e cards — e
+   * #7a5aff sobre o card dá 3,12:1, abaixo do mínimo de 4,5:1 para texto.
+   * Este passo dá 5,27:1 no card e 6,38:1 no fundo, equilibrando com a
+   * receita em turquesa (8,65:1). As marcas dos gráficos não usam este
+   * token: elas têm os valores validados em use-chart-theme.ts.
+   */
+  --expense: #ad8dfd;
   --warning: #f2b544;
   --destructive: #ff5e7a;
   --destructive-foreground: #2a0710;

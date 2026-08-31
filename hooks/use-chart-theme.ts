@@ -38,7 +38,8 @@ const LIGHT: Omit<ChartTheme, "isDark"> = {
   axis: "#d1d5db",
   ink: "#1a1d2b",
   surface: "#ffffff",
-  good: "#00a394",
+  // "good" rotula texto na pílula de status, não só o anel — precisa de 4,5:1.
+  good: "#087970",
   warning: "#b45309",
   critical: "#d92d4e",
 };

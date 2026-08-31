@@ -25,7 +25,7 @@ function AccountBlock({ name, email }: { name: string; email: string }) {
     <div className="flex items-center gap-3 rounded-lg px-3 py-2">
       <span
         aria-hidden
-        className="flex size-8 shrink-0 items-center justify-center rounded-full bg-secondary text-xs font-semibold text-secondary-foreground"
+        className="flex size-8 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-xs font-semibold text-foreground"
       >
         {name.slice(0, 1).toUpperCase()}
       </span>

@@ -22,8 +22,11 @@ export function PageHeader({
           </p>
         ) : null}
       </div>
+      {/* Wraps rather than shrinks: at 375px the month picker and the primary
+          action do not fit on one line, and squeezing either one hurts more
+          than a second row does. */}
       {actions ? (
-        <div className="flex shrink-0 items-center gap-2">{actions}</div>
+        <div className="flex flex-wrap items-center gap-2 sm:shrink-0">{actions}</div>
       ) : null}
     </div>
   );
