@@ -51,6 +51,26 @@ export function formatMoneyCompact(amount: number): string {
   return BRL_COMPACT.format(value);
 }
 
+/** Value for a text input the user will edit: "700,00", never "700". */
+export function formatAmountInput(amount: number): string {
+  return roundMoney(amount).toFixed(2).replace(".", ",");
+}
+
+const COMPACT_NUMBER = new Intl.NumberFormat("pt-BR", {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
+
+/**
+ * Chart axis tick: compact, and without the currency symbol. The unit belongs
+ * in the chart title and the tooltip, not repeated down every tick.
+ */
+export function formatAxisMoney(amount: number): string {
+  const value = roundMoney(amount);
+  if (value === 0) return "0";
+  return COMPACT_NUMBER.format(value);
+}
+
 /** "1.234,56" / "1234.56" / "R$ 1.234,56" -> 1234.56. NaN when unparseable. */
 export function parseMoneyInput(input: string | number): number {
   if (typeof input === "number") return input;

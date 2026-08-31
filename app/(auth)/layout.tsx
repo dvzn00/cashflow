@@ -7,7 +7,7 @@ export default function AuthLayout({ children }: LayoutProps<"/">) {
       {/* Editorial panel — hidden on small screens, where the form is the page. */}
       <aside className="relative hidden overflow-hidden bg-sidebar p-12 lg:flex lg:flex-col lg:justify-between">
         <BrandLockup />
-        <div className="relative z-10 max-w-md">
+        <div className="relative z-10 mb-14 max-w-md">
           <p className="eyebrow mb-4">Controle financeiro pessoal</p>
           <p className="display text-5xl leading-[1.05]">
             Todo mês tem um ritmo. O seu fica visível aqui.
@@ -40,7 +40,7 @@ function FlowGraphic() {
       aria-hidden
       viewBox="0 0 600 260"
       preserveAspectRatio="none"
-      className="pointer-events-none absolute inset-x-0 bottom-0 h-64 w-full opacity-70"
+      className="pointer-events-none absolute inset-x-0 bottom-0 h-44 w-full opacity-60"
     >
       <defs>
         <linearGradient id="flow-fade" x1="0" x2="1" y1="0" y2="0">

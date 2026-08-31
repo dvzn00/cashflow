@@ -57,9 +57,9 @@ begin
   ---------------------------------------------------------------------------
   insert into public.categories (user_id, name, icon, color)
   values
-    (v_user, 'Alimentação', 'utensils', '#00c4b3'),
-    (v_user, 'Transporte',  'car',      '#7a5aff'),
-    (v_user, 'Salário',     'banknote', '#5fd6a0')
+    (v_user, 'Alimentação', 'utensils', '#06a295'),
+    (v_user, 'Transporte',  'car',      '#6646a8'),
+    (v_user, 'Salário',     'banknote', '#5bb661')
   on conflict do nothing;
 
   select id into v_food

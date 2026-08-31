@@ -1,3 +1,5 @@
+import { CHART_SLOTS } from "@/lib/domain/chart-palette";
+
 /**
  * Icon keys a category may use. Kebab-case is what goes in the database;
  * the picker maps each key to its Lucide component.
@@ -56,18 +58,9 @@ export function isCategoryIcon(value: string): value is CategoryIcon {
 }
 
 /**
- * Palette offered when creating a category. Drawn from the chart ramp so a
- * category always reads correctly against the pie and bar charts.
+ * Colours offered when creating a category — the validated chart slots, in
+ * slot order. See lib/domain/chart-palette.ts for how they were derived.
  */
-export const CATEGORY_COLORS = [
-  "#00c4b3",
-  "#7a5aff",
-  "#4fb8e8",
-  "#c58bff",
-  "#5fd6a0",
-  "#f2b544",
-  "#ff7a9c",
-  "#8b93b8",
-] as const;
+export const CATEGORY_COLORS = CHART_SLOTS.map((slot) => slot.light);
 
 export const DEFAULT_CATEGORY_COLOR = CATEGORY_COLORS[0];
