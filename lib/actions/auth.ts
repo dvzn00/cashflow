@@ -7,7 +7,17 @@ import { revalidatePath } from "next/cache";
 import { fieldErrorsFrom } from "@/lib/actions/helpers";
 import { failure, success, type ActionResult } from "@/lib/actions/types";
 import { signInSchema, signUpSchema } from "@/lib/domain/schemas";
+import { isSupabaseConfigured } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
+
+/**
+ * Guard for the actions a signed-out visitor can reach. Without credentials
+ * createClient() throws, and a Server Action that throws renders the generic
+ * error page — which tells the person nothing and looks like the app is
+ * broken. This turns a deployment mistake into a sentence they can act on.
+ */
+const NOT_CONFIGURED =
+  "O aplicativo ainda não está conectado ao banco de dados. Se você é quem publicou, defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY nas variáveis de ambiente e publique de novo.";
 
 /** Absolute origin of the current request, for the confirmation link. */
 async function currentOrigin() {
@@ -32,6 +42,8 @@ export interface SignUpOutcome {
 export async function signUp(
   input: unknown,
 ): Promise<ActionResult<SignUpOutcome>> {
+  if (!isSupabaseConfigured()) return failure(NOT_CONFIGURED);
+
   const parsed = signUpSchema.safeParse(input);
   if (!parsed.success) {
     return failure("Revise os campos destacados.", fieldErrorsFrom(parsed.error));
@@ -78,6 +90,8 @@ export async function signUp(
 }
 
 export async function signIn(input: unknown): Promise<ActionResult<undefined>> {
+  if (!isSupabaseConfigured()) return failure(NOT_CONFIGURED);
+
   const parsed = signInSchema.safeParse(input);
   if (!parsed.success) {
     return failure("Revise os campos destacados.", fieldErrorsFrom(parsed.error));
@@ -111,6 +125,8 @@ export async function signIn(input: unknown): Promise<ActionResult<undefined>> {
 export async function resendConfirmation(
   email: string,
 ): Promise<ActionResult<undefined>> {
+  if (!isSupabaseConfigured()) return failure(NOT_CONFIGURED);
+
   const supabase = await createClient();
   const origin = await currentOrigin();
 
