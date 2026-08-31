@@ -34,7 +34,7 @@ as rotas protegidas redirecionam para `/login`, que exibe o aviso de setup.
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase → Project Settings → API Keys → publishable key (`sb_publishable_…`) |
-| `NEXT_PUBLIC_SITE_URL` | Origem pública da app, sem barra no fim. Só em produção — é para onde o link de confirmação de e-mail volta. |
+| `NEXT_PUBLIC_SITE_URL` | **Opcional.** Sem ela a origem vem dos cabeçalhos da requisição, o que já funciona local e na Vercel. Defina só para fixar um domínio próprio — com o endereço real, sem barra no fim. |
 | `SUPABASE_SECRET_KEY` | Somente servidor, usada por scripts de seed. A aplicação não lê esta variável em tempo de execução. |
 
 ## Scripts
@@ -61,16 +61,26 @@ as rotas protegidas redirecionam para `/login`, que exibe o aviso de setup.
    |---|---|
    | `NEXT_PUBLIC_SUPABASE_URL` | a URL do seu projeto Supabase |
    | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | a chave publicável |
-   | `NEXT_PUBLIC_SITE_URL` | `https://SEU-APP.vercel.app` (só em *Production*) |
+   | `NEXT_PUBLIC_SITE_URL` | deixe de fora, salvo se usar domínio próprio |
 
    `SUPABASE_SECRET_KEY` não é necessária: a aplicação nunca a lê.
+
+   As duas primeiras precisam ser do tipo **Config**, não *Secret*: variáveis
+   `NEXT_PUBLIC_*` são embutidas no bundle do navegador durante o build, e um
+   *Secret* é write-only justamente para não chegar lá. Os dois valores são
+   públicos por definição — quem protege os dados é a RLS.
 
 3. **Libere o domínio no Supabase** — sem isto o link de confirmação de e-mail
    falha em produção. Em *Authentication → URL Configuration*:
 
-   - **Site URL**: `https://SEU-APP.vercel.app`
-   - **Redirect URLs**: acrescente `https://SEU-APP.vercel.app/**` e, se quiser
-     que os *preview deployments* também funcionem, `https://*-SEU-ESCOPO.vercel.app/**`
+   Use o domínio **real** que a Vercel atribuiu — ele aparece em *Overview*, no
+   alto da página do projeto.
+
+   - **Site URL**: o endereço do deploy, sem barra no fim
+   - **Redirect URLs**: o mesmo endereço com `/**` no fim, mais
+     `http://localhost:3000/**` para o desenvolvimento local. O `/**` é
+     obrigatório: sem ele só a raiz é liberada, e o link volta para
+     `/auth/confirm`, que é um caminho.
 
 4. **Aplique o schema** no projeto Supabase de produção, caso seja outro:
    `supabase/migrations/` na ordem, depois `supabase/seed.sql` se quiser os
